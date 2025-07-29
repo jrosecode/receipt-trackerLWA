@@ -49,26 +49,28 @@ function Header() {
           </div>
 
           {/* Navigation */}
-          <nav className="flex items-center gap-1 absolute left-1/2 transform -translate-x-1/2">
-            <Link href="/receipts" aria-label="My Receipts">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hover:bg-primary/10 hover:text-primary transition-all duration-200"
-              >
-                My Receipts
-              </Button>
-            </Link>
-            <Link href="/manage-plan" aria-label="Manage Plan">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="hover:bg-primary/10 hover:text-primary transition-all duration-200"
-              >
-                Manage Plan
-              </Button>
-            </Link>
-          </nav>
+          <SignedIn>
+            <nav className="flex items-center gap-1 absolute left-1/2 transform -translate-x-1/2">
+              <Link href="/receipts" aria-label="My Receipts">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                >
+                  My Receipts
+                </Button>
+              </Link>
+              <Link href="/manage-plan" aria-label="Manage Plan">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="hover:bg-primary/10 hover:text-primary transition-all duration-200"
+                >
+                  Manage Plan
+                </Button>
+              </Link>
+            </nav>
+          </SignedIn>
 
           {/* Theme Toggle + Auth Section */}
           <div className="flex items-center gap-3">

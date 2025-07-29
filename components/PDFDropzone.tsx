@@ -4,12 +4,14 @@ import { Button } from './ui/button';
 import { Toaster } from './ui/sonner';
 import { toast } from 'sonner';
 import { uploadPDF } from '@/actions/uploadPDF';
+import { useClerk } from '@clerk/nextjs';
 
 function PDFDropzone() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isOver, setIsOver] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const { openSignIn } = useClerk();
 
   // dnd-kit droppable setup
   const { setNodeRef, isOver: dndIsOver } = useDroppable({ id: 'pdf-dropzone' });
@@ -40,7 +42,11 @@ function PDFDropzone() {
           inputRef.current.value = '';
         }
       } else {
-        toast.error(result.error || 'Failed to upload PDF');
+        if (result.error === 'Not authenticated') {
+          openSignIn();
+        } else {
+          toast.error(result.error || 'Failed to upload PDF');
+        }
         setFile(null);
       }
     } catch (error) {
@@ -50,7 +56,7 @@ function PDFDropzone() {
     } finally {
       setIsUploading(false);
     }
-  }, []);
+  }, [openSignIn]);
 
   const onDrop = useCallback((event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();

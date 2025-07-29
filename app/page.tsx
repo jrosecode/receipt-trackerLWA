@@ -12,11 +12,9 @@ import {
 import PDFDropzone from "@/components/PDFDropzone";
 import { Upload, Brain, BarChart3, Star } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
 
 export default function Home() {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Hero Section */}
@@ -42,13 +40,44 @@ export default function Home() {
             organize your expenses in seconds.
           </p>
 
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <SignedIn>
+              <Button
+                size="lg"
+                className="px-8 py-3 text-lg"
+                onClick={() => {
+                  document.getElementById('plans')?.scrollIntoView({
+                    behavior: 'smooth'
+                  });
+                }}
+              >
+                Get Started
+              </Button>
+            </SignedIn>
+            <SignedOut>
+              <SignUpButton mode="modal">
+                <Button size="lg" className="px-8 py-3 text-lg">
+                  Get Started
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <Button
+              variant="outline"
+              size="lg"
+              className="px-8 py-3 text-lg"
+              onClick={() => {
+                document.getElementById('features')?.scrollIntoView({
+                  behavior: 'smooth'
+                });
+              }}
+            >
+              Learn More
+            </Button>
+          </div>
+
           <div className="w-full max-w-xl mb-8">
             <PDFDropzone />
-            {selectedFile && (
-              <div className="mt-4 text-center text-primary font-medium">
-                Selected: {selectedFile.name}
-              </div>
-            )}
           </div>
         </div>
         {/* Decorative elements */}
@@ -58,7 +87,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-muted/30">
+      <section id="features" className="py-20 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -105,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* Plans Section */}
-      <section className="py-20">
+      <section id="plans" className="py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -138,9 +167,16 @@ export default function Home() {
                 </ul>
               </CardContent>
               <CardFooter className="w-full flex justify-center">
-                <Button asChild className="w-full">
-                  <Link href="/signup">Sign Up Free</Link>
-                </Button>
+                <SignedIn>
+                  <Button asChild className="w-full">
+                    <Link href="/manage-plan">Choose Plan</Link>
+                  </Button>
+                </SignedIn>
+                <SignedOut>
+                  <SignUpButton mode="modal">
+                    <Button className="w-full">Choose Plan</Button>
+                  </SignUpButton>
+                </SignedOut>
               </CardFooter>
             </Card>
             {/* Starter Plan */}
@@ -166,9 +202,16 @@ export default function Home() {
                 </ul>
               </CardContent>
               <CardFooter className="w-full flex justify-center">
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="/signup">Choose Plan</Link>
-                </Button>
+                <SignedIn>
+                  <Button asChild className="w-full">
+                    <Link href="/manage-plan">Choose Plan</Link>
+                  </Button>
+                </SignedIn>
+                <SignedOut>
+                  <SignUpButton mode="modal">
+                    <Button className="w-full">Choose Plan</Button>
+                  </SignUpButton>
+                </SignedOut>
               </CardFooter>
             </Card>
             {/* Pro Plan (Popular) */}
@@ -201,9 +244,16 @@ export default function Home() {
                 </ul>
               </CardContent>
               <CardFooter className="w-full flex justify-center">
-                <Button asChild className="w-full">
-                  <Link href="/signup">Get Started</Link>
-                </Button>
+                <SignedIn>
+                  <Button asChild className="w-full">
+                    <Link href="/manage-plan">Choose Plan</Link>
+                  </Button>
+                </SignedIn>
+                <SignedOut>
+                  <SignUpButton mode="modal">
+                    <Button className="w-full">Choose Plan</Button>
+                  </SignUpButton>
+                </SignedOut>
               </CardFooter>
             </Card>
           </div>
